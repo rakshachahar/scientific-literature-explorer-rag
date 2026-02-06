@@ -4,3 +4,11 @@ faiss-cpu
 pypdf
 tiktoken
 streamlit
+langchain-community
+langchain-huggingface
+sentence-transformers
+faiss-cpu
+pypdf
+requests
+openai
+tqdm
