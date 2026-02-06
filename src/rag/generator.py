@@ -1,16 +1,30 @@
 import os
-from google import genai
+from openai import OpenAI
 
-def generate_answer(compressed_prompt: str):
-    api_key = os.getenv("GEMINI_API_KEY")
+def generate_answer(prompt: str):
+
+    api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key:
-        raise RuntimeError("GEMINI_API_KEY not set")
+        raise RuntimeError("OPENROUTER_API_KEY not set")
 
-    client = genai.Client(api_key=api_key)
-
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=compressed_prompt,
+    client = OpenAI(
+        api_key=api_key,
+        base_url="https://openrouter.ai/api/v1"
     )
 
-    return response.text
+    try:
+        response = client.responses.create(
+            model="openai/gpt-4o-mini",
+            input=prompt
+        )
+
+        return response.output_text
+
+    except Exception as e:
+        print("[OPENROUTER ERROR]", e)
+
+        return (
+            "⚠️ LLM generation failed.\n\n"
+            "Showing retrieved context instead:\n\n"
+            f"{prompt}"
+        )
