@@ -1,16 +1,34 @@
-# Scientific Literature Explorer — Research Paper Q&A using RAG
+# 📄 Scientific Literature Explorer — Research Paper Q&A using RAG
 
 An end-to-end Retrieval-Augmented Generation (RAG) system that allows users to query research papers in plain English and receive answers grounded directly in the source document.
 
-## Problem Statement
+## 🌐 Live Demo:
 
-Academic research papers are often long, dense, and time-consuming to read. Finding specific information usually requires manually scanning dozens of pages or relying on keyword search, which often misses the actual meaning of the text.
+Try the deployed application:
 
-While large language models can answer questions quickly, they tend to hallucinate when they are not grounded in the source material. This makes them unreliable for serious research use without proper context.
+https://scientific-literature-explorer-rag.streamlit.app/
 
-The challenge is to build a system that can understand the content of a research paper, retrieve the most relevant sections for a given question, and generate answers that are directly grounded in the paper itself.
+Users can upload a research paper PDF and interact with it through the Streamlit interface.
 
-## Solution Overview
+## 🚀 Key Features
+
+- Research paper Q&A using RAG
+- Grounded responses from source PDFs
+- Semantic retrieval using FAISS
+- Prompt compression via ScaleDown
+- OpenRouter / OpenAI-compatible LLM integration
+- Streamlit web interface
+- Modular pipeline architecture
+
+## 🧠 Problem Statement
+
+Academic research papers are often long, dense, and time-consuming to read. Finding specific information requires manually scanning pages or relying on keyword search, which often misses contextual meaning.
+
+Large language models can answer questions quickly but hallucinate without grounding in source material.
+
+This project solves that by combining retrieval + generation to produce context-aware answers.
+
+## ⚙️ Solution Overview
 
 This project implements a Retrieval-Augmented Generation (RAG) pipeline enabling users to interact with research papers through natural language questions.
 
@@ -30,34 +48,25 @@ Workflow summary:
 
 7. LLM generates a grounded answer.
 
-## Project Architecture
+## 🏗️ Project Architecture
 
-The system is structured as a modular pipeline, where each component has a clear responsibility.
+The system follows a modular RAG pipeline:
 
-- **PDF Loader**  
-  Extracts text from research papers and splits it into manageable chunks.
+- PDF Loader  
+- Embedding Module  
+- Vector Store (FAISS)  
+- Retriever  
+- Context Builder  
+- Prompt Compression (ScaleDown)  
+- Answer Generator 
 
-- **Embedding Module**  
-  Converts text chunks into vector embeddings using a sentence transformer model.
+## 🖥️ UI Preview
 
-- **Vector Store (FAISS)**  
-  Stores embeddings and enables fast semantic similarity search.
+![Home UI](assets/ui-home.png)
+![Question Interface](assets/ui-ask-qus.png)
+![Generated Answer](assets/ui-ans.png)
 
-- **Retriever**  
-  Fetches the most relevant chunks from the vector store based on a user query.
-
-- **Context Builder**  
-  Combines retrieved chunks into a single contextual input for the language model.
-
-- **Prompt Compression (ScaleDown)**  
-  Compresses the context and question to reduce token usage while preserving meaning.
-
-- **Answer Generator**  
-  Uses a language model to generate answers grounded in the retrieved document context.
-
-This modular design makes the system easier to debug, extend, and replace individual components as needed.
-
-## Tech Stack
+## 🧰 Tech Stack
 
 - Python – Core programming language  
 - LangChain – RAG pipeline orchestration  
@@ -67,7 +76,7 @@ This modular design makes the system easier to debug, extend, and replace indivi
 - OpenRouter / OpenAI-compatible LLMs – Answer generation  
 - Streamlit – Web-based user interface
 
-## Project Status
+## 📌 Project Status
 
 The system supports question answering over research papers via both:
 
@@ -83,9 +92,7 @@ Future improvements may include:
 - Persistent vector storage
 - Advanced chat history
 
-The current focus is on correctness, modularity, and RAG pipeline clarity.
-
-## Setup & Installation
+## 🛠️ Setup & Installation
 
 ### 1. Clone the repository
 
@@ -134,7 +141,7 @@ What is the main focus of this research paper?
 
 The study examines how advanced language learners use mobile devices to support English language learning, based on interview-based qualitative analysis.
 
-## Project Structure
+## 📂 Project Structure
 
 ```text
 src/
@@ -153,12 +160,9 @@ docs/
 └── workflow.md
 ```
 
-### Deployment
+### 🚀 Deployment
 
 The application is deployed on Streamlit.
 
-🌐 Live Demo:
-
+🌐 Live Demo:  
 https://scientific-literature-explorer-rag.streamlit.app/
-
-Users can upload a research paper PDF and interact with it through the Streamlit interface.
