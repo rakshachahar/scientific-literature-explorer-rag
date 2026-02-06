@@ -105,6 +105,7 @@ pip install -r requirements.txt
 ```bash
 export SCALEDOWN_API_KEY="your_scaledown_key_here"
 export OPENROUTER_API_KEY="your_openrouter_key_here"
+```
 
 ### 4. Add a research paper
 
