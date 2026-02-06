@@ -35,11 +35,48 @@ Before sending the context to the language model, the prompt is compressed using
 This reduces token usage while preserving semantic meaning, improving efficiency and cost control.
 
 ### 7. Answer Generator
-The compressed context and user question are passed to the language model, which generates a grounded answer based only on the retrieved document content.
+The compressed prompt is passed to an OpenAI-compatible language model via OpenRouter for grounded answer generation.
+
+This design allows flexible model selection and supports fallback handling in case of API or quota failures.
+
+---
+
+## System Interaction Flow
+
+The system operates across three logical layers:
+
+### 1. Interface Layer
+A Streamlit-based web interface allows users to:
+
+- Upload research papers
+- Submit natural language questions
+- View grounded answers
+
+The UI interacts with the backend pipeline without containing business logic.
+
+### 2. Retrieval Layer
+Responsible for:
+
+- Document ingestion
+- Text chunking
+- Embedding generation
+- Semantic similarity search
+
+### 3. Generation Layer
+Handles:
+
+- Context compression using ScaleDown
+- Prompt delivery to the language model
+- Grounded answer generation
+
+This layered separation ensures scalability and clean abstraction between system components.
+
+---
 
 ## Design Principles
 
 - Modular components for easier debugging and replacement
-- Separation of retrieval and generation logic
+- Clear separation of retrieval and generation logic
 - Emphasis on grounding answers in source documents
 - Optimized token usage through prompt compression
+- Interface abstraction from core pipeline logic

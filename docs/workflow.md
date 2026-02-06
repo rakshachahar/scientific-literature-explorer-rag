@@ -1,33 +1,50 @@
 # Application Workflow
 
-This document explains how the system behaves at runtime when a user asks a question.
+This document explains how the system behaves at runtime when a user interacts with the application.
 
 ## Step-by-Step Flow
 
-1. The user places a research paper PDF inside the `data/sample_papers/` directory.
-2. The application loads the PDF and extracts text content.
-3. Extracted text is split into overlapping chunks.
-4. Each chunk is embedded into a vector representation.
-5. All embeddings are indexed using FAISS.
-6. The user enters a natural language question.
-7. The question is embedded and compared against stored vectors.
-8. The retriever selects the most relevant chunks.
-9. Retrieved chunks are merged into a single context.
-10. The context and question are compressed using ScaleDown.
-11. The compressed prompt is sent to the language model.
-12. The model generates a response grounded in the document content.
-13. The answer is returned to the user via the CLI.
+1. The user uploads a research paper PDF through the Streamlit interface.
+2. The application temporarily stores the uploaded file.
+3. The PDF is loaded and text content is extracted.
+4. Extracted text is split into overlapping chunks.
+5. Each chunk is embedded into a vector representation.
+6. All embeddings are indexed using FAISS.
+7. The user enters a natural language question in the UI.
+8. The question is embedded and compared against stored vectors.
+9. The retriever selects the most relevant chunks.
+10. Retrieved chunks are merged into a single context.
+11. The context and question are compressed using ScaleDown.
+12. The compressed prompt is sent to the language model.
+13. The model generates a response grounded in the document content.
+14. The generated answer is displayed in the UI.
+
+---
+
+## LLM Failure Handling
+
+If answer generation fails due to API limits, quota exhaustion, or network issues:
+
+- The system falls back to displaying retrieved document context.
+- This ensures the user still receives relevant information.
+- The fallback maintains system usability even without active LLM access.
+
+---
 
 ## Error Handling Considerations
 
-- Missing PDFs are handled by early validation.
-- API failures are surfaced clearly during runtime.
-- Modular design allows individual components to be tested independently.
+- Missing PDFs are handled via upload validation.
+- Empty questions trigger user warnings.
+- API failures are surfaced with fallback responses.
+- Modular design allows independent component debugging.
+
+---
 
 ## Current Limitations
 
 - Supports a single PDF at a time
 - Uses in-memory vector storage
-- CLI-based interaction only
+- No persistent indexing
+- Limited citation highlighting
 
-These limitations are intentional to keep the system focused on understanding core RAG concepts.
+These limitations are intentional to maintain focus on core RAG pipeline understanding.

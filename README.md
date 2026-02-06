@@ -12,13 +12,23 @@ The challenge is to build a system that can understand the content of a research
 
 ## Solution Overview
 
-To address this problem, this project implements a Retrieval-Augmented Generation (RAG) pipeline that enables users to interact with research papers through natural language questions.
+This project implements a Retrieval-Augmented Generation (RAG) pipeline enabling users to interact with research papers through natural language questions.
 
-The system begins by ingesting a research paper in PDF format and converting it into machine-readable text. This text is then split into smaller chunks to make it easier to process and retrieve relevant information.
+Workflow summary:
 
-Each chunk is transformed into vector embeddings and stored in a FAISS vector database. When a user asks a question, the system performs semantic search to retrieve the most relevant sections of the paper.
+1. Research paper PDF is ingested.
 
-The retrieved context is then compressed using ScaleDown to optimize prompt size and reduce token usage before being sent to the language model. Finally, the LLM generates an answer grounded in the retrieved content, ensuring that responses remain relevant to the source document.
+2. Text is extracted and split into chunks.
+
+3. Chunks are converted into embeddings.
+
+4. Embeddings are stored in FAISS.
+
+5. Relevant chunks are retrieved via semantic search.
+
+6. Context is compressed using ScaleDown.
+
+7. LLM generates a grounded answer.
 
 ## Project Architecture
 
@@ -49,24 +59,31 @@ This modular design makes the system easier to debug, extend, and replace indivi
 
 ## Tech Stack
 
-- **Python** – Core programming language  
-- **LangChain** – Orchestrating the RAG pipeline  
-- **FAISS** – Vector database for semantic search  
-- **Sentence Transformers** – Generating text embeddings  
-- **ScaleDown API** – Prompt compression and token optimization  
-- **Google Gemini / OpenAI-compatible LLMs** – Answer generation
+- Python – Core programming language  
+- LangChain – RAG pipeline orchestration  
+- FAISS – Vector database for semantic search  
+- Sentence Transformers – Embedding generation  
+- ScaleDown API – Prompt compression & token optimization  
+- OpenRouter / OpenAI-compatible LLMs – Answer generation  
+- Streamlit – Web-based user interface
 
 ## Project Status
 
-This project currently supports question answering over a single research paper PDF using a command-line interface.
+The system supports question answering over research papers via both:
+
+- Command-line interface
+- Streamlit web interface
+
+Users can upload PDFs, ask questions, and receive grounded answers through an interactive UI.
 
 Future improvements may include:
-- Multi-document support
-- Web-based UI
-- Citation highlighting in answers
-- Persistent vector storage
 
-The current focus is on correctness, clarity, and understanding the core RAG workflow.
+- Multi-document support
+- Citation highlighting
+- Persistent vector storage
+- Advanced chat history
+
+The current focus is on correctness, modularity, and RAG pipeline clarity.
 
 ## Setup & Installation
 
@@ -87,8 +104,7 @@ pip install -r requirements.txt
 
 ```bash
 export SCALEDOWN_API_KEY="your_scaledown_key_here"
-export GEMINI_API_KEY="your_gemini_key_here"
-```
+export OPENROUTER_API_KEY="your_openrouter_key_here"
 
 ### 4. Add a research paper
 
@@ -102,6 +118,7 @@ data/sample_papers/
 
 ```bash
 python src/app.py
+streamlit run src/ui.py
 ```
 
 ## Example Usage
@@ -124,8 +141,23 @@ src/
 ├── embeddings/     # Embedding generation
 ├── vectorstore/    # FAISS indexing
 ├── rag/            # Retrieval + generation pipeline
+├── ui.py           # Streamlit interface
 └── app.py          # CLI entry point
 
 data/
 └── sample_papers/  # Input research papers
+
+docs/
+├── architecture.md
+└── workflow.md
 ```
+
+### Deployment
+
+The application is deployed on Streamlit.
+
+🌐 Live Demo:
+
+https://scientific-literature-explorer-rag.streamlit.app/
+
+Users can upload a research paper PDF and interact with it through the Streamlit interface.
